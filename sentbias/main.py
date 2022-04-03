@@ -129,7 +129,7 @@ def handle_arguments(arguments):
                                    "Required if openai model is specified.")
 
     bert_group = parser.add_argument_group(ModelName.BERT.value, 'Options for BERT model')
-    bert_group.add_argument('--bert_version', type=str, choices=BERT_VERSIONS,
+    bert_group.add_argument('--bert_version', type=str, # choices=BERT_VERSIONS,
                             help="Version of BERT to use.", default="bert-large-cased")
 
     return parser.parse_args(arguments)
@@ -241,7 +241,7 @@ def main(arguments):
         for test in tests:
             log.info('Running test {} for model {}'.format(test, model_name))
             enc_file = os.path.join(args.exp_dir, "%s.%s.h5" % (
-                "%s;%s" % (model_name, model_options) if model_options else model_name,
+                "%s;%s" % (model_name, model_options.replace("/", "")) if model_options else model_name,
                 test))
             if not args.ignore_cached_encs and os.path.isfile(enc_file):
                 log.info("Loading encodings from %s", enc_file)
